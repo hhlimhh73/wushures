@@ -30,7 +30,7 @@ from config import USERNAME, PASSWORD
 # CONFIG
 # ─────────────────────────────────────────────────────────────────────────────
 
-BASE_URL   = "https://cmf-wushu.com/kl2025"
+BASE_URL   = "https://cmf-wushu.com/robin2026"
 LOGIN_URL  = f"{BASE_URL}/login_admin.php"
 
 EXCEL_FILE = "wushu_results.xlsx"
