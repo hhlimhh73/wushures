@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-04 19:52:02",
+  "updated": "2026-07-04 20:04:20",
   "sections": [
     {
       "section": "U6",
@@ -4560,6 +4560,15 @@
       "results": [
         {
           "No": "1",
+          "姓名": "",
+          "Name": "CELINE IVANYA ALEXANDRA",
+          "奖项": "",
+          "最后得分": "8.500",
+          "单位": "Indonesia Wushu Stars",
+          "Collected (Sign)": ""
+        },
+        {
+          "No": "2",
           "姓名": "林芊妤",
           "Name": "SHANICE LIM QIAN YU",
           "奖项": "",
@@ -4568,12 +4577,57 @@
           "Collected (Sign)": ""
         },
         {
-          "No": "2",
+          "No": "3",
+          "姓名": "陈瑀萱",
+          "Name": "TAN EJANE",
+          "奖项": "",
+          "最后得分": "8.620",
+          "单位": "Wushu Yuan Training Center",
+          "Collected (Sign)": ""
+        },
+        {
+          "No": "4",
+          "姓名": "李语恬",
+          "Name": "LEE YU TIAN",
+          "奖项": "",
+          "最后得分": "8.165",
+          "单位": "霹雳武艺学院",
+          "Collected (Sign)": ""
+        },
+        {
+          "No": "5",
+          "姓名": "",
+          "Name": "NUR IRDINA DELISHA BINTI MAZLI",
+          "奖项": "",
+          "最后得分": "8.125",
+          "单位": "Terengganu Team",
+          "Collected (Sign)": ""
+        },
+        {
+          "No": "6",
+          "姓名": "蔡雨庭",
+          "Name": "Harper Chai Yi Tyng",
+          "奖项": "",
+          "最后得分": "8.000",
+          "单位": "正阳武术",
+          "Collected (Sign)": ""
+        },
+        {
+          "No": "7",
           "姓名": "甘洁怡",
           "Name": "JEANNIE KAM",
           "奖项": "",
           "最后得分": "7.975",
           "单位": "SJK C SALAK SOUTH",
+          "Collected (Sign)": ""
+        },
+        {
+          "No": "8",
+          "姓名": "",
+          "Name": "FATIMAH AALIYA BINTI NOORHAFIZUL",
+          "奖项": "",
+          "最后得分": "7.955",
+          "单位": "Terengganu Team",
           "Collected (Sign)": ""
         }
       ]
@@ -11750,6 +11804,37 @@
       "cat_id": 337,
       "cat_name": "U18男子自选刀术",
       "results": []
+    },
+    {
+      "section": "U18",
+      "cat_id": 338,
+      "cat_name": "U18女子自选刀术",
+      "results": []
+    },
+    {
+      "section": "U18",
+      "cat_id": 339,
+      "cat_name": "U18男子自选南刀",
+      "results": [
+        {
+          "No": "1",
+          "姓名": "李荣华",
+          "Name": "Lee Wing Wah",
+          "奖项": "Tempat Pertama",
+          "最后得分": "8.820",
+          "单位": "WHOOSH WUSHU",
+          "Collected (Sign)": ""
+        },
+        {
+          "No": "2",
+          "姓名": "张杰",
+          "Name": "JEFF CHONG",
+          "奖项": "Tempat Kedua",
+          "最后得分": "8.400",
+          "单位": "Classic Wushu Academy",
+          "Collected (Sign)": ""
+        }
+      ]
     },
     {
       "section": "U18",
