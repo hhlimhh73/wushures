@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2025 KL Wushu Championship — Live Results</title>
+<style>
+  :root {
+    --gold: #FFD700; --silver: #C0C0C0; --bronze: #CD7F32;
+    --navy: #1F4E79; --blue: #2E75B6; --alt: #EBF3FB;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    margin: 0; padding: 0 0 3rem; background: #f4f6f8; color: #1a1a1a;
+  }
+  header {
+    background: var(--navy); color: #fff; padding: 1.25rem 1.5rem;
+    position: sticky; top: 0; z-index: 10;
+  }
+  header h1 { margin: 0 0 4px; font-size: 20px; }
+  header p { margin: 0; font-size: 13px; opacity: 0.85; }
+  .controls {
+    max-width: 1000px; margin: 1rem auto 0; padding: 0 1.5rem;
+    display: flex; gap: 10px; flex-wrap: wrap;
+  }
+  #search {
+    flex: 1; min-width: 220px; padding: 10px 12px; font-size: 14px;
+    border: 1px solid #ccc; border-radius: 6px;
+  }
+  #status { font-size: 13px; color: #666; align-self: center; }
+  main { max-width: 1000px; margin: 1rem auto; padding: 0 1.5rem; }
+  .section-title {
+    background: var(--blue); color: #fff; padding: 8px 12px;
+    border-radius: 6px 6px 0 0; font-size: 15px; font-weight: 600;
+    margin-top: 1.5rem;
+  }
+  .category {
+    background: #fff; border: 1px solid #ddd; border-top: none;
+    margin-bottom: 4px;
+  }
+  .category:last-child { border-radius: 0 0 6px 6px; }
+  .category-title {
+    padding: 8px 12px; font-weight: 600; font-size: 13px;
+    background: #BDD7EE; color: #0d3050;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { padding: 6px 10px; text-align: left; border-bottom: 1px solid #eee; }
+  th { background: var(--navy); color: #fff; position: sticky; top: 68px; }
+  tr.gold  td { background: var(--gold); }
+  tr.silver td { background: var(--silver); }
+  tr.bronze td { background: var(--bronze); }
+  tr.alt td { background: var(--alt); }
+  .empty { padding: 10px 12px; font-style: italic; color: #999; font-size: 13px; }
+  .hidden { display: none; }
+  #error { max-width: 1000px; margin: 2rem auto; padding: 1rem 1.5rem; color: #a33; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>2025 KL Wushu Championship — Live Results</h1>
+  <p id="updated">Loading…</p>
+</header>
+
+<div class="controls">
+  <input id="search" type="text" placeholder="Search name or category…">
+  <span id="status"></span>
+</div>
+
+<main id="results"></main>
+<div id="error" class="hidden"></div>
+
+<script>
+const DATA_URL = "results_data.json";
+const REFRESH_MS = 60000;
+let currentData = null;
+
+function medalClass(rankVal) {
+  const r = String(rankVal ?? "").trim().toLowerCase();
+  if (["1", "1st"].includes(r)) return "gold";
+  if (["2", "2nd"].includes(r)) return "silver";
+  if (["3", "3rd"].includes(r)) return "bronze";
+  return null;
+}
+
+function render(data, filter) {
+  const root = document.getElementById("results");
+  root.innerHTML = "";
+  const q = (filter || "").trim().toLowerCase();
+
+  let shownCategories = 0;
+  let currentSection = null;
+  let sectionEl = null;
+
+  for (const cat of data.sections) {
+    const results = cat.results || [];
+    const matches = !q || cat.cat_name.toLowerCase().includes(q) ||
+      results.some(row => Object.values(row).some(v => String(v).toLowerCase().includes(q)));
+    if (!matches) continue;
+
+    if (cat.section !== currentSection) {
+      currentSection = cat.section;
+      const h = document.createElement("div");
+      h.className = "section-title";
+      h.textContent = currentSection;
+      root.appendChild(h);
+    }
+
+    const catDiv = document.createElement("div");
+    catDiv.className = "category";
+    const title = document.createElement("div");
+    title.className = "category-title";
+    title.textContent = `[${cat.cat_id}] ${cat.cat_name}`;
+    catDiv.appendChild(title);
+
+    if (!results.length) {
+      const empty = document.createElement("div");
+      empty.className = "empty";
+      empty.textContent = "— No results yet —";
+      catDiv.appendChild(empty);
+    } else {
+      const table = document.createElement("table");
+      const headers = Object.keys(results[0]);
+      const thead = document.createElement("tr");
+      headers.forEach(h => {
+        const th = document.createElement("th");
+        th.textContent = h;
+        thead.appendChild(th);
+      });
+      table.appendChild(thead);
+
+      results.forEach((row, i) => {
+        const filterRow = !q || Object.values(row).some(v => String(v).toLowerCase().includes(q));
+        if (q && !filterRow && !cat.cat_name.toLowerCase().includes(q)) return;
+        const tr = document.createElement("tr");
+        const cls = medalClass(Object.values(row)[0]) || (i % 2 === 0 ? "alt" : null);
+        if (cls) tr.className = cls;
+        headers.forEach(h => {
+          const td = document.createElement("td");
+          td.textContent = row[h] ?? "";
+          tr.appendChild(td);
+        });
+        table.appendChild(tr);
+      });
+      catDiv.appendChild(table);
+    }
+    root.appendChild(catDiv);
+    shownCategories++;
+  }
+
+  document.getElementById("status").textContent =
+    q ? `${shownCategories} categor${shownCategories === 1 ? "y" : "ies"} match` : "";
+}
+
+async function load() {
+  try {
+    const res = await fetch(`${DATA_URL}?t=${Date.now()}`, { cache: "no-store" });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    currentData = await res.json();
+    document.getElementById("updated").textContent = `Last updated: ${currentData.updated}`;
+    document.getElementById("error").classList.add("hidden");
+    render(currentData, document.getElementById("search").value);
+  } catch (e) {
+    document.getElementById("error").textContent =
+      `Couldn't load ${DATA_URL}: ${e.message}. If you opened this file directly, serve it over HTTP (e.g. GitHub Pages) instead — browsers block fetch() on local files.`;
+    document.getElementById("error").classList.remove("hidden");
+  }
+}
+
+document.getElementById("search").addEventListener("input", e => {
+  if (currentData) render(currentData, e.target.value);
+});
+
+load();
+setInterval(load, REFRESH_MS);
+</script>
+
+</body>
+</html>
